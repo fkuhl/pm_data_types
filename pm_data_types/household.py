@@ -1,5 +1,7 @@
 from pm_data_types.address import Address
 from pm_data_types.member import Member
+import json
+import jsonpickle
 
 
 class Household:
@@ -11,6 +13,16 @@ class Household:
         self.__spouse = None  # Member
         self.__others = []  # Members
         self.__address = None  # Address
+
+    @staticmethod
+    def make_household(household_as_dict):
+        """From a dict retrieved from Mongo, make a Household object."""
+        # First do the id shuffle
+        mongo_id = household_as_dict['_id']
+        del household_as_dict['_id']
+        household_as_dict['_Household__id'] = str(mongo_id)
+        # now unpickle
+        return jsonpickle.decode(json.dumps(household_as_dict))
 
     @property
     def id(self): return self.__id

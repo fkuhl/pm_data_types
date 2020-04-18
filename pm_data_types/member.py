@@ -156,7 +156,7 @@ class Member:
 
     def __init__(self):
         # every Member needs an id, but not a Mongo ID
-        self.__member_id = str(uuid.uuid4())
+        self.__id = str(uuid.uuid4())
         self.__family_name = ""
         self.__given_name = ""
         self.__middle_name = None
@@ -191,10 +191,10 @@ class Member:
         self.__date_last_changed = "1970-01-01"
 
     @property
-    def member_id(self): return self.__member_id
+    def id(self): return self.__id
 
-    @member_id.setter
-    def member_id(self, newval): pass  # need to add teeth
+    @id.setter
+    def id(self, newval): self.__id = newval
 
     @property
     def family_name(self): return self.__family_name
@@ -397,5 +397,14 @@ class Member:
     def date_last_changed(
         self, newval): self.__date_last_changed = newval.isoformat()
 
+    @property
     def is_active(self):
-        return self.__status.is_active()
+        return self.status.is_active()
+
+    @property
+    def full_name(self):
+
+        prev_contrib = f" ({self.previous_family_name})" if self.previous_family_name else ""
+        nick_contrib = f" \"{self.nickname}\"" if self.nickname else ""
+        middle_contrib = f" {self.middle_name}" if self.middle_name else ""
+        return f"{self.family_name}, {self.given_name}{middle_contrib}{prev_contrib}{nick_contrib}"

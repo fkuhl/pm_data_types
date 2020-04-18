@@ -6,6 +6,7 @@ class Address:
 
     def __init__(self):
         # all the 'None's are strings
+        self.__id = 0  # used only in import from Java
         self.__address = ""
         self.__address2 = None
         self.__city = ""
@@ -14,6 +15,12 @@ class Address:
         self.__country = None
         self.__email = None
         self.__home_phone = None
+
+    @property
+    def id(self): return self.__id
+
+    @id.setter
+    def id(self, newval): self.__id = newval
 
     @property
     def address(self): return self.__address

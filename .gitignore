@@ -1,5 +1,7 @@
 # FSK 2020-04-14 Ignore VSCode workspace settings
 .vscode
+.log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
