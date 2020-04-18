@@ -24,6 +24,10 @@ class Household:
         # now unpickle
         return jsonpickle.decode(json.dumps(household_as_dict))
 
+    def mongoize(self):
+        """Create a dictionary suitable for insertion into Mongo."""
+        return json.loads(jsonpickle.encode(self))
+
     @property
     def id(self): return self.__id
 
@@ -53,3 +57,11 @@ class Household:
 
     @address.setter
     def address(self, newval): self.__address = newval
+
+    @property
+    def members(self):
+        all_members = [self.head]
+        if self.spouse:
+            all_members.append(self.spouse)
+        all_members.extend(self.others)
+        return all_members
