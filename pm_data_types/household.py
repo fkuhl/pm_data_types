@@ -14,6 +14,20 @@ class Household:
         self.__others = []  # Members
         self.__address = None  # Address
 
+    def __repr__(self):
+        s = ''
+        s+= '__id = %s\n' % self.__id
+        if self.__head:
+            s+= '__head = %s\n' % '%s, %s' % (self.__head.family_name, self.__head.given_name)
+        if self.__spouse:
+            s+= 'spouse = %s\n' % '%s, %s' % (self.__spouse.family_name, self.__spouse.given_name)
+        if self.__others:
+            s+= 'Household Members:\n'
+            for oi in self.__others:
+                s+= '\tmember id: %s\n' % oi
+        s+= '__address = %s\n' % self.__address
+        return s
+
     @staticmethod
     def make_household(household_as_dict):
         """From a dict retrieved from Mongo, make a Household object."""
