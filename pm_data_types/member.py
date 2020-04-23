@@ -29,6 +29,11 @@ class Transaction:
         self.__church = ""
         self.__comment = ""
 
+    def __str__(self):
+        s = f"  trans: {self.__type} date: {self.__date}"
+        s += f"\n    auth: '{self.__authority}' church: '{self.__church}' comment: '{self.__comment}'"
+        return s
+
     @property
     def id(self): return self.__id
 
@@ -88,6 +93,11 @@ class Service:
         self.__type = ServiceType.ORDAINED_RE.name
         self.__place = ""
         self.__comment = ""
+
+    def __str__(self):
+        s = f"  svc: {self.__type} date: {self.__date}"
+        s += f"\n    place: '{self.__place}' comment:'{self.__comment}'"
+        return s
 
     @property
     def index(self): return self.__index
@@ -184,11 +194,30 @@ class Member:
         self.__work_email = None  # string
         self.__mobile_phone = None  # string
         self.__work_phone = None  # string
-        self.__education = ""
-        self.__employer = ""
+        # self.__education = ""
+        # self.__employer = ""
         self.__baptism = ""  # date and place as text
         self.__services = []  # Services
         self.__date_last_changed = "1970-01-01"
+
+    def __str__(self):
+        s = f"member: {self.full_name}"
+        s += f"\n  {self.__status} {self.__sex} DOB: {self.__date_of_birth} place of birth: {self.__place_of_birth}"
+        s += f"\n  resident: {self.__resident} ex-dir: {self.__ex_directory}"
+        s += f"\n  {self.__marital_status}"
+        if self.__spouse:
+            s += f" spouse: {self.__spouse}"
+        if self.__date_of_marriage:
+            s += f" date marr: {self.__date_of_marriage}"
+        if self.__divorce:
+            s += f" divorce: {self.__divorce}"
+        s += f"\n  baptism: {self.__baptism}"
+        for t in self.__transactions:
+            s += f"\n{t}"
+        for sv in self.__services:
+            s += f"\n{sv}"
+        # TODO and at this point I'm bored...
+        return s
 
     @property
     def id(self): return self.__id
@@ -365,17 +394,17 @@ class Member:
     @work_phone.setter
     def work_phone(self, newval): self.__work_phone = newval
 
-    @property
-    def education(self): return self.__education
+    # @property
+    # def education(self): return self.__education
 
-    @education.setter
-    def education(self, newval): self.__education = newval
+    # @education.setter
+    # def education(self, newval): self.__education = newval
 
-    @property
-    def employer(self): return self.__employer
+    # @property
+    # def employer(self): return self.__employer
 
-    @employer.setter
-    def employer(self, newval): self.__employer = newval
+    # @employer.setter
+    # def employer(self, newval): self.__employer = newval
 
     @property
     def baptism(self): return self.__baptism
@@ -407,4 +436,6 @@ class Member:
         prev_contrib = f" ({self.previous_family_name})" if self.previous_family_name else ""
         nick_contrib = f" \"{self.nickname}\"" if self.nickname else ""
         middle_contrib = f" {self.middle_name}" if self.middle_name else ""
-        return f"{self.family_name}, {self.given_name}{middle_contrib}{prev_contrib}{nick_contrib}"
+        suffix_contrib = f", {self.name_suffix}" if self.name_suffix else ""
+        title_contrib = f" {self.title}" if self.title else ""
+        return f"{self.family_name}, {self.given_name}{middle_contrib}{suffix_contrib}{title_contrib}{prev_contrib}{nick_contrib}"

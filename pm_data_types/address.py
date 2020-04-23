@@ -16,6 +16,14 @@ class Address:
         self.__email = None
         self.__home_phone = None
 
+    def __str__(self):
+        s = f"  address: {self.__address} / {self.__address2}"
+        s += f"\n    city: {self.__city} state: {self.__state} postal: {self.__postal_code}"
+        if self.__country:
+            s += f"\n    country: {self.__country}"
+        s += f"\n    email: '{self.__email}' phone: '{self.__home_phone}''"
+        return s
+
     @property
     def id(self): return self.__id
 

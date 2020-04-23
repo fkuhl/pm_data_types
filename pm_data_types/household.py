@@ -14,19 +14,15 @@ class Household:
         self.__others = []  # Members
         self.__address = None  # Address
 
-    def __repr__(self):
-        s = ''
-        s+= '__id = %s\n' % self.__id
-        if self.__head:
-            s+= '__head = %s\n' % '%s, %s' % (self.__head.family_name, self.__head.given_name)
+    def __str__(self):
+        t = f"id: {self.__id} head: {self.__head.full_name}"
         if self.__spouse:
-            s+= 'spouse = %s\n' % '%s, %s' % (self.__spouse.family_name, self.__spouse.given_name)
-        if self.__others:
-            s+= 'Household Members:\n'
-            for oi in self.__others:
-                s+= '\tmember id: %s\n' % oi
-        s+= '__address = %s\n' % self.__address
-        return s
+            t += f"\n  spouse: {self.__spouse.full_name}"
+        t += "\n  members: "
+        for other in self.__others:
+            t += f" {other.given_name}"
+        t += f"\n  address: {self.__address}"
+        return t
 
     @staticmethod
     def make_household(household_as_dict):
