@@ -1,20 +1,20 @@
 import json
+from pm_data_types.data_common import BadDataError
 
 
 class Address:
     """Address of Household, or temporary address of member."""
 
     def __init__(self):
-        # all the 'None's are strings
         self.__id = 0  # used only in import from Java
         self.__address = ""
-        self.__address2 = None
+        self.__address2 = ""
         self.__city = ""
-        self.__state = None
+        self.__state = ""
         self.__postal_code = ""
-        self.__country = None
-        self.__email = None
-        self.__home_phone = None
+        self.__country = ""
+        self.__email = ""
+        self.__home_phone = ""
 
     def __str__(self):
         s = f"  address: {self.__address} / {self.__address2}"
@@ -34,7 +34,10 @@ class Address:
     def address(self): return self.__address
 
     @address.setter
-    def address(self, address): self.__address = address
+    def address(self, address):
+        if not address:
+            raise BadDataError(address)
+        self.__address = address
 
     @property
     def address2(self): return self.__address2
@@ -46,7 +49,10 @@ class Address:
     def city(self): return self.__city
 
     @city.setter
-    def city(self, newval): self.__city = newval
+    def city(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__city = newval
 
     @property
     def state(self): return self.__state
@@ -58,7 +64,10 @@ class Address:
     def postal_code(self): return self.__postal_code
 
     @postal_code.setter
-    def postal_code(self, newval): self.__postal_code = newval
+    def postal_code(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__postal_code = newval
 
     @property
     def country(self): return self.__country

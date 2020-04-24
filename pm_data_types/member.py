@@ -2,6 +2,7 @@ from enum import Enum
 from datetime import date
 import uuid
 from pm_data_types.address import Address
+from pm_data_types.data_common import BadDataError
 
 
 class TransactionType(Enum):
@@ -22,7 +23,7 @@ class Transaction:
     """One 'life event' for a Member."""
 
     def __init__(self):
-        self.__id = ""  # not sure of significance of this
+        self.__id = ""  # irrelevant artifact of Java PeriMeleon?
         self.__date = "1970-01-01"
         self.__type = TransactionType.BIRTH.name
         self.__authority = ""
@@ -44,13 +45,19 @@ class Transaction:
     def date(self): return date.fromisoformat(self.__date)
 
     @date.setter
-    def date(self, newval): self.__date = newval.isoformat()
+    def date(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__date = newval.isoformat()
 
     @property
     def type(self): return TransactionType[self.__type]
 
     @type.setter
-    def type(self, newval): self.__type = newval.name
+    def type(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__type = newval.name
 
     @property
     def authority(self): return self.__authority
@@ -88,7 +95,7 @@ class Service:
     """Record of an ordination or term of service as an officer."""
 
     def __init__(self):
-        self.__index = ""
+        self.__index = ""  # irrelevant artifact of Java PeriMeleon?
         self.__date = "1970-01-01"
         self.__type = ServiceType.ORDAINED_RE.name
         self.__place = ""
@@ -109,13 +116,19 @@ class Service:
     def date(self): return date.fromisoformat(self.__date)
 
     @date.setter
-    def date(self, newval): self.__date = newval.isoformat()
+    def date(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__date = newval.isoformat()
 
     @property
     def type(self): return ServiceType[self.__type]
 
     @type.setter
-    def type(self, newval): self.__type = newval.name
+    def type(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__type = newval.name
 
     @property
     def place(self): return self.__place
@@ -229,13 +242,19 @@ class Member:
     def family_name(self): return self.__family_name
 
     @family_name.setter
-    def family_name(self, family_name): self.__family_name = family_name
+    def family_name(self, family_name):
+        if not family_name:
+            raise BadDataError(family_name)
+        self.__family_name = family_name
 
     @property
     def given_name(self): return self.__given_name
 
     @given_name.setter
-    def given_name(self, newval): self.__given_name = newval
+    def given_name(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__given_name = newval
 
     @property
     def middle_name(self): return self.__middle_name
@@ -274,7 +293,10 @@ class Member:
         return Sex[self.__sex]
 
     @sex.setter
-    def sex(self, newval): self.__sex = newval.name
+    def sex(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__sex = newval.name
 
     @property
     def date_of_birth(self):
@@ -283,6 +305,8 @@ class Member:
 
     @date_of_birth.setter
     def date_of_birth(self, date_of_birth):
+        if not date_of_birth:
+            raise BadDataError(date_of_birth)
         self.__date_of_birth = date_of_birth.isoformat()
 
     @property
@@ -298,6 +322,8 @@ class Member:
     @status.setter
     def status(self, status):
         """Enumerations stored and pickled as name, e.g., 'COMMUNING'"""
+        if not status:
+            raise BadDataError(status)
         self.__status = status.name
 
     @property
@@ -330,13 +356,18 @@ class Member:
 
     @transactions.setter
     def transactions(self, transactions):
+        if not transactions:
+            raise BadDataError(transactions)
         self.__transactions = transactions
 
     @property
     def marital_status(self): return MaritalStatus[self.__marital_status]
 
     @marital_status.setter
-    def marital_status(self, newval): self.__marital_status = newval.name
+    def marital_status(self, newval):
+        if not newval:
+            raise BadDataError(newval)
+        self.__marital_status = newval.name
 
     @property
     def spouse(self): return self.__spouse

@@ -1,5 +1,6 @@
 from pm_data_types.address import Address
 from pm_data_types.member import Member
+from pm_data_types.data_common import BadDataError
 import json
 import jsonpickle
 
@@ -48,7 +49,10 @@ class Household:
     def head(self): return self.__head
 
     @head.setter
-    def head(self, head): self.__head = head
+    def head(self, head):
+        if not head:
+            raise BadDataError(head)
+        self.__head = head
 
     @property
     def spouse(self): return self.__spouse
