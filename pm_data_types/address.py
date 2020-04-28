@@ -24,6 +24,13 @@ class Address:
         s += f"\n    email: '{self.__email}' phone: '{self.__home_phone}''"
         return s
 
+    @staticmethod
+    def make_from_clean_dict(dict):
+        address = Address()
+        for k, v in dict.items():
+            address.__setattr__(k, v)
+        return address
+
     @property
     def id(self): return self.__id
 

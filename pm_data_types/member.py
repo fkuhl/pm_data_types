@@ -1,8 +1,27 @@
 from enum import Enum
 from datetime import date
 import uuid
+from datetime import date
 from pm_data_types.address import Address
 from pm_data_types.data_common import BadDataError
+
+
+def set_date(optional, newval):
+    if not optional and not newval:
+        raise BadDataError
+    if type(newval) == date:
+        return newval.isoformat()
+    else:
+        return newval  # accept str (from clean dict)
+
+
+def set_enum(optional, newval):
+    if not optional and not newval:
+        raise BadDataError
+    if isinstance(newval, Enum):
+        return newval.name
+    else:
+        return newval  # accept str (from clean dict)
 
 
 class TransactionType(Enum):
@@ -35,6 +54,13 @@ class Transaction:
         s += f"\n    auth: '{self.__authority}' church: '{self.__church}' comment: '{self.__comment}'"
         return s
 
+    @staticmethod
+    def make_from_clean_dict(dict):
+        transaction = Transaction()
+        for k, v in dict.items():
+            transaction.__setattr__(k, v)
+        return transaction
+
     @property
     def id(self): return self.__id
 
@@ -46,18 +72,14 @@ class Transaction:
 
     @date.setter
     def date(self, newval):
-        if not newval:
-            raise BadDataError(newval)
-        self.__date = newval.isoformat()
+        self.__date = set_date(True, newval)
 
     @property
     def type(self): return TransactionType[self.__type]
 
     @type.setter
     def type(self, newval):
-        if not newval:
-            raise BadDataError(newval)
-        self.__type = newval.name
+        self.__type = set_enum(False, newval)
 
     @property
     def authority(self): return self.__authority
@@ -106,6 +128,13 @@ class Service:
         s += f"\n    place: '{self.__place}' comment:'{self.__comment}'"
         return s
 
+    @staticmethod
+    def make_from_clean_dict(dict):
+        service = Service()
+        for k, v in dict.items():
+            service.__setattr__(k, v)
+        return service
+
     @property
     def index(self): return self.__index
 
@@ -117,18 +146,14 @@ class Service:
 
     @date.setter
     def date(self, newval):
-        if not newval:
-            raise BadDataError(newval)
-        self.__date = newval.isoformat()
+        self.__date = set_date(False, newval)
 
     @property
     def type(self): return ServiceType[self.__type]
 
     @type.setter
     def type(self, newval):
-        if not newval:
-            raise BadDataError(newval)
-        self.__type = newval.name
+        self.__type = set_enum(False, newval)
 
     @property
     def place(self): return self.__place
@@ -232,6 +257,27 @@ class Member:
         # TODO and at this point I'm bored...
         return s
 
+    @staticmethod
+    def make_from_clean_dict(dict):
+        member = Member()
+        for k, v in dict.items():
+            if k == "temp_address":
+                if v:
+                    member.__setattr__(k, Address.make_from_clean_dict(v))
+                else:
+                    member.__setattr__(k, None)
+            elif k == "transactions":
+                newvals = [Transaction.make_from_clean_dict(d) for d in v]
+                member.__setattr__(k, newvals)
+            elif k == "services":
+                newvals = [Service.make_from_clean_dict(d) for d in v]
+                member.__setattr__(k, newvals)
+            elif k == "full_name" or k == "is_active":
+                pass
+            else:
+                member.__setattr__(k, v)
+        return member
+
     @property
     def id(self): return self.__id
 
@@ -294,9 +340,7 @@ class Member:
 
     @sex.setter
     def sex(self, newval):
-        if not newval:
-            raise BadDataError(newval)
-        self.__sex = newval.name
+        self.__sex = set_enum(False, newval)
 
     @property
     def date_of_birth(self):
@@ -305,9 +349,7 @@ class Member:
 
     @date_of_birth.setter
     def date_of_birth(self, date_of_birth):
-        if not date_of_birth:
-            raise BadDataError(date_of_birth)
-        self.__date_of_birth = date_of_birth.isoformat()
+        self.__date_of_birth = set_date(False, date_of_birth)
 
     @property
     def place_of_birth(self): return self.__place_of_birth
@@ -322,9 +364,7 @@ class Member:
     @status.setter
     def status(self, status):
         """Enumerations stored and pickled as name, e.g., 'COMMUNING'"""
-        if not status:
-            raise BadDataError(status)
-        self.__status = status.name
+        self.__status = set_enum(False, status)
 
     @property
     def resident(self): return self.__resident
@@ -365,9 +405,7 @@ class Member:
 
     @marital_status.setter
     def marital_status(self, newval):
-        if not newval:
-            raise BadDataError(newval)
-        self.__marital_status = newval.name
+        self.__marital_status = set_enum(False, newval)
 
     @property
     def spouse(self): return self.__spouse
@@ -380,8 +418,8 @@ class Member:
         self.__date_of_marriage)
 
     @date_of_marriage.setter
-    def date_of_marriage(
-        self, newval): self.__date_of_marriage = newval.isoformat()
+    def date_of_marriage(self, newval):
+        self.__date_of_marriage = set_date(True, newval)
 
     @property
     def divorce(self): return self.__divorce
@@ -454,8 +492,8 @@ class Member:
         self.__date_last_changed)
 
     @date_last_changed.setter
-    def date_last_changed(
-        self, newval): self.__date_last_changed = newval.isoformat()
+    def date_last_changed(self, newval):
+        self.__date_last_changed = set_date(True, newval)
 
     @property
     def is_active(self):

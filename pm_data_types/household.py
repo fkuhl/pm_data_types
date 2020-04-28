@@ -26,7 +26,7 @@ class Household:
         return t
 
     @staticmethod
-    def make_household(household_as_dict):
+    def make_from_mongo_dict(household_as_dict):
         """From a dict retrieved from Mongo, make a Household object."""
         # First do the id shuffle
         mongo_id = household_as_dict['_id']
@@ -38,6 +38,26 @@ class Household:
     def mongoize(self):
         """Create a dictionary suitable for insertion into Mongo."""
         return json.loads(jsonpickle.encode(self))
+
+    @staticmethod
+    def make_from_clean_dict(dict):
+        household = Household()
+        for k, v in dict.items():
+            if k == "head":
+                household.__setattr__(k, Member.make_from_clean_dict(v))
+            elif k == "spouse":
+                if v:
+                    household.__setattr__(k, Member.make_from_clean_dict(v))
+                else:
+                    household.__setattr__(k, None)
+            elif k == "others":
+                newvals = [Member.make_from_clean_dict(d) for d in v]
+                household.__setattr__(k, newvals)
+            elif k == "address":
+                household.__setattr__(k, Address.make_from_clean_dict(v))
+            else:
+                household.__setattr__(k, v)
+        return household
 
     @property
     def id(self): return self.__id
