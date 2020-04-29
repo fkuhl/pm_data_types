@@ -268,6 +268,7 @@ class Member:
 
     @staticmethod
     def make_from_clean_dict(dict):
+        """Make Member instance from a JS-like dict."""
         if not dict:
             return None
         member = Member()

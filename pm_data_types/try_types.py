@@ -44,6 +44,9 @@ def main():
     household = Household.make_from_clean_dict(clean_json_obj)
     print(f"\n\n{household}")
 
+    member = Member.make_from_mongo_dict(hh_from_mongo["_Household__head"])
+    print(f"\n\n member: {member}")
+
 
 if __name__ == '__main__':
     main()
