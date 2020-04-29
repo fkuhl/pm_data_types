@@ -4,6 +4,8 @@ import uuid
 from datetime import date
 from pm_data_types.address import Address
 from pm_data_types.data_common import BadDataError
+import json
+import jsonpickle
 
 
 def set_date(optional, newval):
@@ -258,6 +260,11 @@ class Member:
             s += f"\n{sv}"
         # TODO and at this point I'm bored...
         return s
+
+    @staticmethod
+    def make_from_mongo_dict(dict):
+        """From a dict retrieved from Mongo, make a Member object."""
+        return jsonpickle.decode(json.dumps(dict))
 
     @staticmethod
     def make_from_clean_dict(dict):

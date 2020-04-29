@@ -41,6 +41,7 @@ class Household:
 
     @staticmethod
     def make_from_clean_dict(dict):
+        """Make Household instance from a JS-like dict."""
         household = Household()
         for k, v in dict.items():
             if k == "head":
