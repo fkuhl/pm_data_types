@@ -26,6 +26,8 @@ class Address:
 
     @staticmethod
     def make_from_clean_dict(dict):
+        if not dict:
+            return None
         address = Address()
         for k, v in dict.items():
             address.__setattr__(k, v)

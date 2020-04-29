@@ -7,6 +7,7 @@ from pm_data_types.data_common import BadDataError
 
 
 def set_date(optional, newval):
+    """Set date-type property either with date instance, or string."""
     if not optional and not newval:
         raise BadDataError
     if type(newval) == date:
@@ -16,6 +17,7 @@ def set_date(optional, newval):
 
 
 def set_enum(optional, newval):
+    """Set Enum-type property either with Enum instance or string."""
     if not optional and not newval:
         raise BadDataError
     if isinstance(newval, Enum):
@@ -259,13 +261,12 @@ class Member:
 
     @staticmethod
     def make_from_clean_dict(dict):
+        if not dict:
+            return None
         member = Member()
         for k, v in dict.items():
             if k == "temp_address":
-                if v:
-                    member.__setattr__(k, Address.make_from_clean_dict(v))
-                else:
-                    member.__setattr__(k, None)
+                member.__setattr__(k, Address.make_from_clean_dict(v))
             elif k == "transactions":
                 newvals = [Transaction.make_from_clean_dict(d) for d in v]
                 member.__setattr__(k, newvals)

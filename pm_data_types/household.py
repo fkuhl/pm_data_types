@@ -46,10 +46,7 @@ class Household:
             if k == "head":
                 household.__setattr__(k, Member.make_from_clean_dict(v))
             elif k == "spouse":
-                if v:
-                    household.__setattr__(k, Member.make_from_clean_dict(v))
-                else:
-                    household.__setattr__(k, None)
+                household.__setattr__(k, Member.make_from_clean_dict(v))
             elif k == "others":
                 newvals = [Member.make_from_clean_dict(d) for d in v]
                 household.__setattr__(k, newvals)
