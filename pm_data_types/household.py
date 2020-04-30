@@ -1,6 +1,6 @@
 from pm_data_types.address import Address
 from pm_data_types.member import Member
-from pm_data_types.data_common import BadDataError
+from pm_data_types.data_common import BadDataError, CleanPropEncoder
 import json
 import jsonpickle
 
@@ -53,6 +53,8 @@ class Household:
                 household.__setattr__(k, newvals)
             elif k == "address":
                 household.__setattr__(k, Address.make_from_clean_dict(v))
+            elif k == "clean_json":
+                pass
             else:
                 household.__setattr__(k, v)
         return household
@@ -97,3 +99,7 @@ class Household:
             all_members.append(self.spouse)
         all_members.extend(self.others)
         return all_members
+
+    @property
+    def clean_json(self):
+        return json.dumps(self, cls=CleanPropEncoder)

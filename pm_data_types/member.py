@@ -3,7 +3,7 @@ from datetime import date
 import uuid
 from datetime import date
 from pm_data_types.address import Address
-from pm_data_types.data_common import BadDataError
+from pm_data_types.data_common import BadDataError, CleanPropEncoder
 import json
 import jsonpickle
 
@@ -281,7 +281,7 @@ class Member:
             elif k == "services":
                 newvals = [Service.make_from_clean_dict(d) for d in v]
                 member.__setattr__(k, newvals)
-            elif k == "full_name" or k == "is_active":
+            elif k == "full_name" or k == "is_active" or k == "clean_json":
                 pass
             else:
                 member.__setattr__(k, v)
@@ -517,3 +517,7 @@ class Member:
         suffix_contrib = f", {self.name_suffix}" if self.name_suffix else ""
         title_contrib = f" {self.title}" if self.title else ""
         return f"{self.family_name}, {self.given_name}{middle_contrib}{suffix_contrib}{title_contrib}{prev_contrib}{nick_contrib}"
+
+    @property
+    def clean_json(self):
+        return json.dumps(self, cls=CleanPropEncoder)

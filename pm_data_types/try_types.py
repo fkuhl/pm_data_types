@@ -23,8 +23,7 @@ def main():
     household = Household.make_from_mongo_dict(hh_from_mongo)
     print(f"household: {household}")
     # From Household instance, make "clean" JSON for transmission to JS client.
-    clean_json_obj = json.loads(
-        json.dumps(household, cls=CleanPropEncoder))
+    clean_json_obj = json.loads(household.clean_json)
     print("clean JSON obj:")
     pp.pprint(clean_json_obj)
 
@@ -46,6 +45,8 @@ def main():
 
     member = Member.make_from_mongo_dict(hh_from_mongo["_Household__head"])
     print(f"\n\n member: {member}")
+    member_clean = member.clean_json
+    print(f"members clean string: {member_clean}")
 
 
 if __name__ == '__main__':
