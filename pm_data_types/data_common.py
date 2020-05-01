@@ -19,7 +19,9 @@ class CleanPropEncoder(json.JSONEncoder):
     clean_json_obj = json.loads(
             json.dumps(household_obk, cls=CleanPropEncoder))
     """
-    types = []  # List all the types that might appear in json string
+    types = []
+
+    # List all the types that might appear in json string
 
     def clean_prop_name(self, k):
         for type in CleanPropEncoder.types:

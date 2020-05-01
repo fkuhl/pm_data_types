@@ -1,5 +1,5 @@
+from pm_data_types.member import Member, MemberStatus, Sex, MaritalStatus, Transaction, TransactionType, Service, ServiceType
 from pm_data_types.address import Address
-from pm_data_types.member import Member
 from pm_data_types.data_common import BadDataError, CleanPropEncoder
 import json
 import jsonpickle
@@ -103,3 +103,7 @@ class Household:
     @property
     def clean_json(self):
         return json.dumps(self, cls=CleanPropEncoder)
+
+
+CleanPropEncoder.types = [Member, MemberStatus, Sex, MaritalStatus, Transaction,
+                          TransactionType, Service, ServiceType, Address, Household]

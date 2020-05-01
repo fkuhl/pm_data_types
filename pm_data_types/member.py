@@ -521,3 +521,7 @@ class Member:
     @property
     def clean_json(self):
         return json.dumps(self, cls=CleanPropEncoder)
+
+
+CleanPropEncoder.types = [Member, MemberStatus, Sex, MaritalStatus, Transaction,
+                          TransactionType, Service, ServiceType, Address]
