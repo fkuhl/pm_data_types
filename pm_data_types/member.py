@@ -405,8 +405,8 @@ class Member:
 
     @transactions.setter
     def transactions(self, transactions):
-        if not transactions:
-            raise BadDataError(transactions)
+        # if not transactions:   turns out [] is falsy
+        #     raise BadDataError(transactions)
         self.__transactions = transactions
 
     @property
