@@ -37,7 +37,9 @@ class Household:
 
     def mongoize(self):
         """Create a dictionary suitable for insertion into Mongo."""
-        return json.loads(jsonpickle.encode(self))
+        mongoized = json.loads(jsonpickle.encode(self))
+        mongoized["_Household__head"]["_Member__is_active"] = self.head.is_active
+        return mongoized
 
     @staticmethod
     def make_from_clean_dict(dict):
