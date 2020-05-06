@@ -1,3 +1,4 @@
+"""Exercise PM types, using PM test data."""
 import pymongo
 import json
 import pprint
@@ -23,7 +24,7 @@ def main():
     household = Household.make_from_mongo_dict(hh_from_mongo)
     print(f"household: {household}")
     # From Household instance, make "clean" JSON for transmission to JS client.
-    clean_json_obj = json.loads(household.clean_json)
+    clean_json_obj = json.loads(household.clean_json_string)
     print("clean JSON obj:")
     pp.pprint(clean_json_obj)
 
@@ -45,7 +46,7 @@ def main():
 
     member = Member.make_from_mongo_dict(hh_from_mongo["_Household__head"])
     print(f"\n\n member: {member}")
-    member_clean = member.clean_json
+    member_clean = member.clean_json_string
     print(f"members clean string: {member_clean}")
 
 

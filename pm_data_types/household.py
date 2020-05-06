@@ -55,7 +55,7 @@ class Household:
                 household.__setattr__(k, newvals)
             elif k == "address":
                 household.__setattr__(k, Address.make_from_clean_dict(v))
-            elif k == "clean_json":
+            elif k == "clean_json_string":
                 pass
             else:
                 household.__setattr__(k, v)
@@ -103,7 +103,7 @@ class Household:
         return all_members
 
     @property
-    def clean_json(self):
+    def clean_json_string(self):
         return json.dumps(self, cls=CleanPropEncoder)
 
 

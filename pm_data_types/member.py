@@ -281,7 +281,7 @@ class Member:
             elif k == "services":
                 newvals = [Service.make_from_clean_dict(d) for d in v]
                 member.__setattr__(k, newvals)
-            elif k == "full_name" or k == "is_active" or k == "clean_json":
+            elif k == "full_name" or k == "is_active" or k == "clean_json_string":
                 pass
             else:
                 member.__setattr__(k, v)
@@ -519,7 +519,7 @@ class Member:
         return f"{self.family_name}, {self.given_name}{middle_contrib}{suffix_contrib}{title_contrib}{prev_contrib}{nick_contrib}"
 
     @property
-    def clean_json(self):
+    def clean_json_string(self):
         return json.dumps(self, cls=CleanPropEncoder)
 
 
