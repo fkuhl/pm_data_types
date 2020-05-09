@@ -44,8 +44,6 @@ class Address:
 
     @address.setter
     def address(self, address):
-        if not address:
-            raise BadDataError(address)
         self.__address = address
 
     @property
@@ -59,8 +57,6 @@ class Address:
 
     @city.setter
     def city(self, newval):
-        if not newval:
-            raise BadDataError(newval)
         self.__city = newval
 
     @property
@@ -74,8 +70,6 @@ class Address:
 
     @postal_code.setter
     def postal_code(self, newval):
-        if not newval:
-            raise BadDataError(newval)
         self.__postal_code = newval
 
     @property

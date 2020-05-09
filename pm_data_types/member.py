@@ -150,7 +150,7 @@ class Service:
 
     @date.setter
     def date(self, newval):
-        self.__date = set_date(False, newval)
+        self.__date = set_date(True, newval)
 
     @property
     def type(self): return ServiceType[self.__type]
@@ -358,7 +358,7 @@ class Member:
 
     @date_of_birth.setter
     def date_of_birth(self, date_of_birth):
-        self.__date_of_birth = set_date(False, date_of_birth)
+        self.__date_of_birth = set_date(True, date_of_birth)
 
     @property
     def place_of_birth(self): return self.__place_of_birth
