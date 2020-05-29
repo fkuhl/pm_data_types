@@ -47,7 +47,7 @@ class Transaction:
 
     def __init__(self):
         self.__id = ""  # irrelevant artifact of Java PeriMeleon?
-        self.__date = "1970-01-01"
+        self.__date = None
         self.__type = TransactionType.BIRTH.name
         self.__authority = ""
         self.__church = ""
@@ -122,7 +122,7 @@ class Service:
 
     def __init__(self):
         self.__index = ""  # irrelevant artifact of Java PeriMeleon?
-        self.__date = "1970-01-01"
+        self.__date = None
         self.__type = ServiceType.ORDAINED_RE.name
         self.__place = ""
         self.__comment = ""
@@ -217,7 +217,7 @@ class Member:
         self.__title = None
         self.__nickname = None
         self.__sex = Sex.MALE.name
-        self.__date_of_birth = "1970-01-01"
+        self.__date_of_birth = None
         self.__place_of_birth = ""
         self.__status = MemberStatus.COMMUNING.name
         self.__resident = True
@@ -240,7 +240,7 @@ class Member:
         # self.__employer = ""
         self.__baptism = ""  # date and place as text
         self.__services = []  # Services
-        self.__date_last_changed = "1970-01-01"
+        self.__date_last_changed = None
 
     def __str__(self):
         s = f"member: {self.full_name}"
