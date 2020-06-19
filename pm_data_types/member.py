@@ -112,9 +112,10 @@ class ServiceType(Enum):
     INSTALLED_RE = 5
     INSTALLED_DE = 6
     REMOVED = 7
-    EMERITUS = 8
-    HON_RETIRED = 9
-    DEPOSED = 10
+    EMERITUS_RE = 8
+    EMERITUS_DE = 9
+    HON_RETIRED = 10
+    DEPOSED = 11
 
 
 class Service:
